@@ -1,0 +1,21 @@
+en:
+  # The 'site_settings' key is used for defining localization strings related to site settings.
+  site_settings:
+    # Each setting defined in the plugin should have a corresponding entry here.
+    send_email_on_new_post_enabled: "Enable or disable the email automation feature"
+    send_email_on_new_post_recipient_email: "Email address to which notifications are sent"
+    send_email_on_new_post_email_subject: "Subject line of the email notification"
+    send_email_on_new_post_email_body_template: "Template for the email body, with placeholders for dynamic content"
+
+  # 'discourse_automation' key groups the localizations related to the DiscourseAutomation plugin.
+  discourse_automation:
+    # 'scriptables' refers to automated scripts that the plugin adds or modifies.
+    scriptables:
+      send_email_on_new_post:
+        title: "Email on New Post"
+        description: "Sends an email notification when a new forum post is created"
+    # 'triggerables' are conditions or events that trigger the automated scripts.
+    triggerables:
+      post_created:
+        title: "New Post Created"
+        description: "An event that is triggered whenever a new post is made in the forum"
