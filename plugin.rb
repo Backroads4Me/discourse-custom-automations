@@ -77,12 +77,16 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
     if recipient.present?
 
     # This will generate and send an email.
-      Email::Sender.new(
-                      from_address: SiteSetting.notification_email,
+    Email::Sender.new(
+                    Email::MessageBuilder.new(
+                      from: SiteSetting.notification_email,
                       to: recipient,
                       subject: subject,
                       body: body
-                    ).send
+                                          ),
+                    :test_message
+                  ).send
+
     end
   end
 end
