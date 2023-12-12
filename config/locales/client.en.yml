@@ -6,10 +6,10 @@ en:
 
     discourse_automation:
       triggerables:
-	# The new triggerable action. 
+        # The new triggerable action. 
         send_email_on_new_post:  
           fields:
-	  # configurable parameters or inputs
+          # configurable parameters or inputs
             email_recipient:
               label: "Recipient Email"
             email_subject:
