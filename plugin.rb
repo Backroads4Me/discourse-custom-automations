@@ -72,20 +72,17 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
     recipient = SiteSetting.send_email_on_new_post_email_recipient
     subject = SiteSetting.send_email_on_new_post_email_subject
     body = SiteSetting.send_email_on_new_post_email_body
-    
-    # Use the site admin's email address as the sender.
-    from_address = SiteSetting.contact_email
 
     # Do not attempt to send the email if an address has not been configured.
     if recipient.present?
-    if from_address.present?
 
-    # Create a system message (private message) to the user.
-    # This will generate an email based on the user's notification settings.
-    SystemMessage.create(to_address: recipient,
-                         subject: subject,
-                         body: body).deliver
-    end
+    # This will generate and send an email.
+      Email::Sender.new(
+                      from_address: SiteSetting.notification_email,
+                      to: recipient,
+                      subject: subject,
+                      body: body
+                    ).send
     end
   end
 end
