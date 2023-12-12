@@ -43,7 +43,7 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
     if recipient.present?
 
       # Send the PM from the system user
-      PostCreator.new(Discourse.system_user, {
+      PostCreator.create!(Discourse.system_user, {
               target_emails: recipient,
               archetype: Archetype.private_message,
               subtype: TopicSubtype.system_message,
