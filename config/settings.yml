@@ -2,12 +2,3 @@ plugins:
   send_email_on_new_post_enabled:
     default: false
     client: true
-  send_email_on_new_post_recipient_email:
-    default: 'example@example.com'
-    client: true
-  send_email_on_new_post_email_subject:
-    default: 'New Post Created'
-    client: true
-  send_email_on_new_post_email_body_template:
-    default: 'A new post has been created: %{post_title}'
-    client: true
