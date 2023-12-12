@@ -80,14 +80,11 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
     if recipient.present?
     if from_address.present?
 
-    # Enqueue a job to send the email.
-    # 'critical_user_email' is a job type in Discourse for sending important emails.
-    # The job is added to a queue and will be processed by the system.
-    Jobs.enqueue(:critical_user_email,
-                 from_address: from_address, 
-                 to_address: recipient,
-                 subject: subject,
-                 body: body)
+    # Create a system message (private message) to the user.
+    # This will generate an email based on the user's notification settings.
+    SystemMessage.create(to_address: recipient,
+                         subject: subject,
+                         body: body).deliver
     end
     end
   end
