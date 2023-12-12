@@ -4,7 +4,5 @@ en:
     # Namespace for the plugin. It should be unique and descriptive.
     discourse_automation:
       triggerables:
-        send_email_on_new_post:
+        post_create:
           fields:
-            subgroups:
-              label: Subgroups
