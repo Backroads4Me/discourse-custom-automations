@@ -10,8 +10,8 @@
 
 # name: discourse-custom-automations
 # about: Send an email when a new post is created.
-# version: 1
-# authors: Backroads4me
+# version: 1.0.0
+# author: Backroads4me
 
 # This line creates a setting in the Discourse admin panel to enable or disable this plugin.
 enabled_site_setting :discourse_custom_automations_enabled
@@ -55,9 +55,7 @@ DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST = "send_email_on_new_pos
 
 # Add a new automation script to DiscourseAutomation.
 # This part of the script defines what the automation does.
-add_automation_scriptable(DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST) do
 DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST) do
-#version 1
 
   # Define the event that triggers this script.
   # 'post_created' means the script runs when a new post is made in the forum.
@@ -71,23 +69,19 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
     post = context["post"]
 
     # Access the settings defined in 'settings.yml' to get email details.
-    #recipient_email = SiteSetting.send_email_on_new_post_recipient_email
-    #subject = SiteSetting.send_email_on_new_post_email_subject
-    #body_template = SiteSetting.send_email_on_new_post_email_body_template
+    recipient = SiteSetting.send_email_on_new_post_email_recipient
+    subject = SiteSetting.send_email_on_new_post_email_subject
+    body = SiteSetting.send_email_on_new_post_email_body
 
-    # Replace the '%{post_title}' placeholder in the body template with the actual post title.
-    #body = body_template.gsub('%{post_title}', post.title)
+    # Do not attempt to send the email if an address has not been configured.
+    if email_recipient.present?
 
     # Enqueue a job to send the email.
     # 'critical_user_email' is a job type in Discourse for sending important emails.
     # The job is added to a queue and will be processed by the system.
-    #Jobs.enqueue(:critical_user_email,
-     #            to_address: recipient_email,
-      #           subject: subject,
-       #          body: body)
     Jobs.enqueue(:critical_user_email,
-             to_address: "ghhght@ymail.com",
-             subject: "test subject",
-             body: "test body")
+                 to_address: recipient,
+                 subject: subject,
+                 body: body)
   end
 end
