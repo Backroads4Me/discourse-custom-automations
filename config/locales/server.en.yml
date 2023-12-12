@@ -11,7 +11,3 @@ en:
       send_email_on_new_post:
         title: "Email on New Post"
         description: "Sends an email notification when a new post is created"
-    triggerables:
-      post_created:
-        title: "New Post Created"
-        description: "Triggered whenever a new post is made"
