@@ -1,8 +1,18 @@
 en:
-  # This is the top-level key for English language localizations.
+# English language.
+
   js:
-    # Namespace for the plugin. It should be unique and descriptive.
+  # JavaScript
+
     discourse_automation:
       triggerables:
-        post_create:
+	# The new triggerable action. 
+        send_email_on_new_post:  
           fields:
+	  # configurable parameters or inputs
+            email_recipient:
+              label: "Recipient Email"
+            email_subject:
+              label: "Email Subject"
+            email_body:
+              label: "Email Body"
