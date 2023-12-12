@@ -2,19 +2,9 @@ en:
   # This is the top-level key for English language localizations.
   js:
     # Namespace for the plugin. It should be unique and descriptive.
-    automation_script_email:
-      # Title of the plugin for the user interface.
-      title: "Automation: Email on New Post"
-      # A short description of what the plugin does.
-      description: "This plugin sends an email notification whenever a new post is created."
-      # Localizations for settings as they will appear in the plugin's settings interface.
-      settings:
-        send_email_on_new_post_enabled: "Enable Email Notifications for New Posts"
-        send_email_on_new_post_recipient_email: "Email Address for Notifications"
-        send_email_on_new_post_email_subject: "Email Subject for Notifications"
-        send_email_on_new_post_email_body_template: "Template for Email Body"
-      # Labels for different settings or features of the plugin.
-      labels:
-        recipient_email: "Recipient Email"
-        email_subject: "Email Subject"
-        email_body_template: "Email Body Template"
+    discourse_automation:
+      triggerables:
+        send_email_on_new_post:
+          fields:
+            subgroups:
+              label: Subgroups
