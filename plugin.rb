@@ -72,17 +72,23 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
     recipient = SiteSetting.send_email_on_new_post_email_recipient
     subject = SiteSetting.send_email_on_new_post_email_subject
     body = SiteSetting.send_email_on_new_post_email_body
+    
+    # Use the site admin's email address as the sender.
+    from_address = SiteSetting.contact_email
 
     # Do not attempt to send the email if an address has not been configured.
     if recipient.present?
+    if from_address.present?
 
     # Enqueue a job to send the email.
     # 'critical_user_email' is a job type in Discourse for sending important emails.
     # The job is added to a queue and will be processed by the system.
     Jobs.enqueue(:critical_user_email,
+                 from_address: from_address, 
                  to_address: recipient,
                  subject: subject,
                  body: body)
+    end
     end
   end
 end
