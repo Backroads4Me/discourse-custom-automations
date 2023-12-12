@@ -16,6 +16,22 @@
 # This line creates a setting in the Discourse admin panel to enable or disable this plugin.
 enabled_site_setting :discourse_custom_automations_enabled
 
+# 'after_initialize' block: This code runs after the Discourse application has been fully initialized.
+# It ensures that all features and plugins of Discourse are loaded and available.
+after_initialize do
+
+# 'reloadable_patch' block: Allows parts of the code to be reloaded without restarting the entire server.
+# Useful for development and testing, making it easier to apply and test changes.
+reloadable_patch do
+
+# Check if the DiscourseAutomation plugin is defined and available.
+# If it's not, the following code won't run.
+if defined?(DiscourseAutomation)
+
+# Check if the post is a private message.
+# Skip the automation trigger if the post is a PM.
+#next if post.topic.private_message?
+  
 # Define a constant for the script name. This is used to reference the script within the plugin.
 DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST = "send_email_on_new_post"
 
@@ -46,7 +62,8 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
       PostCreator.create!(Discourse.system_user, {
               target_emails: recipient,
               archetype: Archetype.private_message,
-              subtype: TopicSubtype.system_message,
+              #subtype: TopicSubtype.system_message,
+              #subtype: TopicSubtype.moderator_action,
               title: subject,
               raw: body
             })
