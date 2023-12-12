@@ -42,15 +42,14 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
     # Do not attempt to send the email if an address has not been configured.
     if recipient.present?
 
-    # This will generate and send an email.
-    message = Email::MessageBuilder.new(
-              from: SiteSetting.notification_email,
-              to: recipient,
-              subject: subject,
-              body: body
-            ).build_email
-    
-    Email::Sender.new(message, :test_message).send
+      # Send the PM from the system user
+      PostCreator.new(test_user, {
+              target_emails: recipient,
+              archetype: Archetype.private_message,
+              subtype: TopicSubtype.system_message,
+              title: subject,
+              raw: body
+            })
     end
   end
 end
