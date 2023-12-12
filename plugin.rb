@@ -16,40 +16,6 @@
 # This line creates a setting in the Discourse admin panel to enable or disable this plugin.
 enabled_site_setting :discourse_custom_automations_enabled
 
-# 'after_initialize' block: This code runs after the Discourse application has been fully initialized.
-# It ensures that all features and plugins of Discourse are loaded and available.
-after_initialize do
-
-  # 'reloadable_patch' block: Allows parts of the code to be reloaded without restarting the entire server.
-  # Useful for development and testing, making it easier to apply and test changes.
-  reloadable_patch do
-
-    # Check if the DiscourseAutomation plugin is defined and available.
-    # If it's not, the following code won't run.
-    if defined?(DiscourseAutomation)
-
-      # Event listener for the 'post_created' event.
-      # When a new post is created, the enclosed block is executed.
-      on(:post_created) do |post|
-
-        # Fetch all automation instances that are enabled and set to trigger on 'post_created'.
-        DiscourseAutomation::Automation
-          .where(enabled: true, trigger: "post_created")
-          .find_each do |automation|
-
-            # Trigger the automation with the specified kind and post data.
-            # This line essentially activates the automation logic for each matching automation instance.
-            automation.trigger!(
-              "kind" => "post_created",
-              "post" => post,
-            )
-          end
-      end
-    end
-  end
-end
-
-
 # Define a constant for the script name. This is used to reference the script within the plugin.
 DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST = "send_email_on_new_post"
 
@@ -59,7 +25,7 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
 
   # Define the event that triggers this script.
   # 'post_created' means the script runs when a new post is made in the forum.
-  triggerables [:post_created]
+  triggerables %i[post_created_edited]
   
   # Define the logic of the script in a 'script' block.
   # This block describes what happens when the trigger event occurs.
@@ -77,16 +43,14 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
     if recipient.present?
 
     # This will generate and send an email.
-    Email::Sender.new(
-                    Email::MessageBuilder.new(
-                      from: SiteSetting.notification_email,
-                      to: recipient,
-                      subject: subject,
-                      body: body
-                                          ),
-                    :test_message
-                  ).send
-
+    message = Email::MessageBuilder.new(
+              from: SiteSetting.notification_email,
+              to: recipient,
+              subject: subject,
+              body: body
+            ).build_email
+    
+    Email::Sender.new(message, :test_message).send
     end
   end
 end
