@@ -69,4 +69,5 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
             })
     end
   end
-end
+  end
+  end
