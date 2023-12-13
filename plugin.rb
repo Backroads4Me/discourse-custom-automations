@@ -3,11 +3,12 @@
 # They are preceded with # and affect how the code is interpreted and executed.
 # The first line above is a magic comment that ensures string literals are immutable (unchangeable) in the file.
 
-# This section is informational only and drives no fuctionality.
-# Name: discourse-custom-automations
-# About: Sends an email when a new post is created.
-# Author: Backroads4me
-# Version 1.0
+# name: discourse-custom-automations
+# about: Sends an email when a new post is created.
+# Version 0.1
+# authors: Backroads4me
+# url: https://github.com/Backroads4Me/discourse-custom-automations
+
 
 # This creates a setting in the Discourse admin panel to enable or disable this plugin.
 enabled_site_setting :discourse_custom_automations_enabled
