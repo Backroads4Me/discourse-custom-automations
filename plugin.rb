@@ -55,19 +55,21 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
     subject = SiteSetting.send_email_on_new_post_email_subject
     body = SiteSetting.send_email_on_new_post_email_body
 
-    # Do not attempt to send the email if an address has not been configured.
-    if recipient.present?
-
-      # Send the PM from the system user
-      PostCreator.create!(Discourse.system_user, {
-              target_emails: recipient,
-              archetype: Archetype.private_message,
-              #subtype: TopicSubtype.system_message,
-              #subtype: TopicSubtype.moderator_action,
-              title: subject,
-              raw: body
-            })
-    end
+      # Do not attempt to send the email if an address has not been configured.
+      if recipient.present?
+  
+        # Send the PM from the system user
+        PostCreator.create!(Discourse.system_user, {
+                target_emails: recipient,
+                archetype: Archetype.private_message,
+                #subtype: TopicSubtype.system_message,
+                #subtype: TopicSubtype.moderator_action,
+                title: subject,
+                raw: body
+              })
+      end
   end
-  end
-  end
+end
+end
+end
+end
