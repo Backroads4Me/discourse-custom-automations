@@ -5,7 +5,7 @@
 
 # name: discourse-custom-automations
 # about: Send an email when a new post is created.
-version: 1.0.0
+version: 0.0.1
 # author: Backroads4me
 
 # This line creates a setting in the Discourse admin panel to enable or disable this plugin.
@@ -16,8 +16,6 @@ enabled_site_setting :discourse_custom_automations_enabled
 after_initialize do
 
 # 'reloadable_patch' block: Allows parts of the code to be reloaded without restarting the entire server.
-# Useful for development and testing, making it easier to apply and test changes.
-# Really should be commented out before using in production.
 reloadable_patch do
 
 # Check if the DiscourseAutomation plugin is defined and available.
