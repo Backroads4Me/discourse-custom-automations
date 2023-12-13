@@ -7,44 +7,43 @@
 # name: discourse-custom-automations
 # about: Send an email when a new post is created.
 # author: Backroads4me
-version: 1
+version 1
 
-# This line creates a setting in the Discourse admin panel to enable or disable this plugin.
+# This creates a setting in the Discourse admin panel to enable or disable this plugin.
 enabled_site_setting :discourse_custom_automations_enabled
 
-# 'after_initialize' block: This code runs after the Discourse application has been fully initialized.
-# It ensures that all features and plugins of Discourse are loaded and available.
+# This ensures that this code runs after the Discourse application has been fully initialized.
 after_initialize do
 
-# 'reloadable_patch' block: Allows parts of the code to be reloaded without restarting the entire server.
+# Allows the code to be reloaded without restarting the entire server.
 reloadable_patch do
 
-# Check if the DiscourseAutomation plugin is defined and available.
-# If it's not, the following code won't run.
+# Check if the DiscourseAutomation plugin is available, if not, end.
 if defined?(DiscourseAutomation)
 
-# Check if the post is a private message.
-# Skip the automation trigger if the post is a PM.
+# Skip this automation trigger if the post is a PM.
+#  (not currently using)
 #next if post.topic.private_message?
   
-# Define a constant for the script name. This is used to reference the script within the plugin.
+# Define the script name that is used in the DiscourseAutoamtion plugin.
 DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST = "send_email_on_new_post"
 
 # Add a this automation script as an option in the DiscourseAutomation plugin.
 DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST) do
 
   # Define the event that triggers this script.
-  # 'post_created_edited' means the script runs when a new post is made in the forum.
-  # This is one of the built in trigger options.  You can also create your own.
+  # 'post_created_edited'  is one of the built in trigger options.  You can also create your own.
   triggerables %i[post_created_edited]
   
   # This block defines what happens when the trigger event occurs.
   script do |context|
 
-    # Retrieve the post object from the context provided by the trigger.
+    # Retrieve the attributes of the object from the context provided by the trigger.
+    # (not currently using)
     #post = context["post"]
 
-    # Access the settings defined in 'settings.yml' to get email details.
+    # Access the settings defined in 'settings.yml'.
+    # Must be defined in settings.yml
     recipient = SiteSetting.send_email_on_new_post_email_recipient
     subject = SiteSetting.send_email_on_new_post_email_subject
     body = SiteSetting.send_email_on_new_post_email_body
