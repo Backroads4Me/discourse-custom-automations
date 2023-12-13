@@ -26,6 +26,7 @@ reloadable_patch do
 
 # Check if the DiscourseAutomation plugin is defined and available.
 # If it's not, the following code won't run.
+# Really should be commented out before using in production.
 if defined?(DiscourseAutomation)
 
 # Check if the post is a private message.
