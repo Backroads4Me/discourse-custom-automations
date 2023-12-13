@@ -3,10 +3,11 @@
 # They are preceded with # and affect how the code is interpreted and executed.
 # The first line above is a magic comment that ensures string literals are immutable (unchangeable) in the file.
 
+# This section is informational only and drives no fuctionality.
 # name: discourse-custom-automations
 # about: Send an email when a new post is created.
-version: 0.0.1
 # author: Backroads4me
+version: 1
 
 # This line creates a setting in the Discourse admin panel to enable or disable this plugin.
 enabled_site_setting :discourse_custom_automations_enabled
@@ -29,16 +30,15 @@ if defined?(DiscourseAutomation)
 # Define a constant for the script name. This is used to reference the script within the plugin.
 DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST = "send_email_on_new_post"
 
-# Add a new automation script to DiscourseAutomation.
-# This part of the script defines what the automation does.
+# Add a this automation script as an option in the DiscourseAutomation plugin.
 DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST) do
 
   # Define the event that triggers this script.
-  # 'post_created' means the script runs when a new post is made in the forum.
+  # 'post_created_edited' means the script runs when a new post is made in the forum.
+  # This is one of the built in trigger options.  You can also create your own.
   triggerables %i[post_created_edited]
   
-  # Define the logic of the script in a 'script' block.
-  # This block describes what happens when the trigger event occurs.
+  # This block defines what happens when the trigger event occurs.
   script do |context|
 
     # Retrieve the post object from the context provided by the trigger.
