@@ -48,7 +48,7 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
   script do |context|
 
     # Retrieve the post object from the context provided by the trigger.
-    post = context["post"]
+    #post = context["post"]
 
     # Access the settings defined in 'settings.yml' to get email details.
     recipient = SiteSetting.send_email_on_new_post_email_recipient
@@ -62,9 +62,7 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
         PostCreator.create!(Discourse.system_user, {
                 target_emails: recipient,
                 archetype: Archetype.private_message,
-                #subtype: TopicSubtype.system_message,
-                #subtype: TopicSubtype.moderator_action,
-                #title: subject,
+                title: subject,
                 raw: body
               })
       end
