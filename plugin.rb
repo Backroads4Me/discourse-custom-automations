@@ -64,7 +64,7 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
                 archetype: Archetype.private_message,
                 #subtype: TopicSubtype.system_message,
                 #subtype: TopicSubtype.moderator_action,
-                title: subject,
+                #title: subject,
                 raw: body
               })
       end
