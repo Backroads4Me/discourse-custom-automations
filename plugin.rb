@@ -5,7 +5,7 @@
 
 # name: discourse-custom-automations
 # about: Sends an email when a new post is created.
-# Version 0.1
+# Version 1.0.1
 # authors: Backroads4me
 # url: https://github.com/Backroads4Me/discourse-custom-automations
 
