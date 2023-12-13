@@ -1,16 +1,11 @@
 # frozen_string_literal: true
-
 # In Ruby, certain comments known as "magic comments," have a special meaning.
 # They are preceded with # and affect how the code is interpreted and executed.
-# This line is a magic comment that ensures string literals are immutable (unchangeable) in the file.
-# This comment sets all string literals (i.e., text enclosed in quotes) in the file to be immutable (frozen).
-# In Ruby, strings are mutable by default, which means they can be altered after they are created. 
-# It's a best practice for Ruby code to avoid unexpected modifications to strings.
-
+# The first line above is a magic comment that ensures string literals are immutable (unchangeable) in the file.
 
 # name: discourse-custom-automations
 # about: Send an email when a new post is created.
-# version: 1.0.0
+version: 1.0.0
 # author: Backroads4me
 
 # This line creates a setting in the Discourse admin panel to enable or disable this plugin.
@@ -22,11 +17,11 @@ after_initialize do
 
 # 'reloadable_patch' block: Allows parts of the code to be reloaded without restarting the entire server.
 # Useful for development and testing, making it easier to apply and test changes.
+# Really should be commented out before using in production.
 reloadable_patch do
 
 # Check if the DiscourseAutomation plugin is defined and available.
 # If it's not, the following code won't run.
-# Really should be commented out before using in production.
 if defined?(DiscourseAutomation)
 
 # Check if the post is a private message.
