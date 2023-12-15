@@ -53,23 +53,33 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
       if recipient.present?
   
         # Send the PM from the system user
-        Rails.logger.info "Starting PostCreator with recipient: #{recipient.inspect}, subject: #{subject.inspect}, body: #{body.inspect}"
+        Rails.logger.info "TED Starting PostCreator with recipient: #{recipient.inspect}, subject: #{subject.inspect}, body: #{body.inspect}"
         
         begin
           post = PostCreator.create!(Discourse.system_user, {
                     target_emails: recipient,
                     archetype: Archetype.private_message,
                     title: subject,
-                    raw: body
+                    raw: body,
+                    skip_validations: true)
+                  })
+        
+          post = PostCreator.create!(Discourse.system_user, {
+                    target_emails: recipient,
+                    archetype: Archetype.private_message,
+                    subtype: TopicSubtype.system_message,
+                    title: subject,
+                    raw: body,
+                    skip_validations: true)
                   })
         
           Rails.logger.info "Post created successfully: #{post.inspect}"
         rescue ActiveRecord::RecordInvalid => e
           # This block will catch validation failures
-          Rails.logger.error "Post creation failed due to validation errors: #{e.record.errors.full_messages.inspect}"
+          Rails.logger.error "TED Post creation failed due to validation errors: #{e.record.errors.full_messages.inspect}"
         rescue => e
           # This block will catch any other types of errors
-          Rails.logger.error "Post creation failed: #{e.inspect}"
+          Rails.logger.error "TED Post creation failed: #{e.inspect}"
         end
 
 #        PostCreator.create!(Discourse.system_user, {
