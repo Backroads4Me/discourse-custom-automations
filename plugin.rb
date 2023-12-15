@@ -62,7 +62,7 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
                     #subtype: TopicSubtype.system_message,
                     title: subject,
                     raw: body,
-                    skip_validations: true)
+                    skip_validations: true
                   })
 
           Rails.logger.info "Post created successfully: #{post.inspect}"
