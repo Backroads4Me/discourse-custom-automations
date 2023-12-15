@@ -4,7 +4,7 @@
 # The first line above is a magic comment that ensures string literals are immutable (unchangeable) in the file.
 
 # name: discourse-custom-automations
-# about: Sends an email when a new post is created.
+# about: Sends an email when a flagged post is created.
 # Version 0.0.1
 # authors: Backroads4me
 # url: https://github.com/Backroads4Me/discourse-custom-automations
@@ -33,8 +33,9 @@ after_initialize do
         script do |context|
           
           # Retrieve the attributes of the object from the context provided by the trigger.
-          # (not need for this script)
-          #post = context["post"]
+          post = context["post"]
+
+          if post&.flagged_for_moderation?  # Check if the post is flagged for moderation
           
           # Access the settings defined in 'settings.yml'.
           # Must be defined in settings.yml
