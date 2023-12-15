@@ -1,8 +1,11 @@
 # frozen_string_literal: true
+# In Ruby, certain comments known as "magic comments," have a special meaning.
+# They are preceded with # and affect how the code is interpreted and executed.
+# The first line above is a magic comment that ensures string literals are immutable (unchangeable) in the file.
 
 # name: discourse-custom-automations
 # about: Sends an email when a new post is created.
-# Version 1.0.1
+# Version 0.0.1
 # authors: Backroads4me
 # url: https://github.com/Backroads4Me/discourse-custom-automations
 
@@ -21,18 +24,27 @@ after_initialize do
 
       # Add this automation script as an option in the DiscourseAutomation plugin.
       DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_ON_NEW_POST) do
+        
         # Define the event that triggers this script.
+        # 'post_created_edited'  is one of the built in trigger options.  You can also create your own.
         triggerables %i[post_created_edited]
 
         # This block defines what happens when the trigger event occurs.
         script do |context|
+          
+          # Retrieve the attributes of the object from the context provided by the trigger.
+          # (not need for this script)
+          #post = context["post"]
+          
           # Access the settings defined in 'settings.yml'.
+          # Must be defined in settings.yml
           recipient = SiteSetting.send_email_on_new_post_email_recipient
           subject = SiteSetting.send_email_on_new_post_email_subject
           body = SiteSetting.send_email_on_new_post_email_body
 
           # Do not attempt to send the email if an address has not been configured.
           if recipient.present?
+            
             # Send the private messsage.  In this case, I am actually using it to send an email.
             post = PostCreator.create!(Discourse.system_user, {
                       target_emails: recipient,
