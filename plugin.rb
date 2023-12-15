@@ -59,20 +59,12 @@ DiscourseAutomation::Scriptable.add(DiscourseAutomation::Scriptable::SEND_EMAIL_
           post = PostCreator.create!(Discourse.system_user, {
                     target_emails: recipient,
                     archetype: Archetype.private_message,
+                    #subtype: TopicSubtype.system_message,
                     title: subject,
                     raw: body,
                     skip_validations: true)
                   })
-        
-          post = PostCreator.create!(Discourse.system_user, {
-                    target_emails: recipient,
-                    archetype: Archetype.private_message,
-                    subtype: TopicSubtype.system_message,
-                    title: subject,
-                    raw: body,
-                    skip_validations: true)
-                  })
-        
+
           Rails.logger.info "Post created successfully: #{post.inspect}"
         rescue ActiveRecord::RecordInvalid => e
           # This block will catch validation failures
