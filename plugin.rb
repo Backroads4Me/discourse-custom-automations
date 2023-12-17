@@ -37,26 +37,30 @@ after_initialize do
 
           #This needs testing
           #if post&.flagged_for_moderation?  # Check if the post is flagged for moderation
-          
-          # Access the settings defined in 'settings.yml'.
-          # Must be defined in settings.yml
-          recipient = SiteSetting.send_email_on_new_post_email_recipient
-          subject = SiteSetting.send_email_on_new_post_email_subject
-          body = SiteSetting.send_email_on_new_post_email_body
+          # Check if the post has any active flags
+          if post.post_actions.where(post_action_type_id: PostActionType.flag_types.values, resolved: false).exists?
 
-          # Do not attempt to send the email if an address has not been configured.
-          if recipient.present?
-            
-            # Send the private messsage.  In this case, I am actually using it to send an email.
-            post = PostCreator.create!(Discourse.system_user, {
-                      target_emails: recipient,
-                      archetype: Archetype.private_message,
-                      subtype: TopicSubtype.system_message,
-                      title: subject,
-                      raw: body,
-                      skip_validations: true
-                    })
-          end # if recipient.present?
+            # Access the settings defined in 'settings.yml'.
+            # Must be defined in settings.yml
+            recipient = SiteSetting.send_email_on_new_post_email_recipient
+            subject = SiteSetting.send_email_on_new_post_email_subject
+            body = SiteSetting.send_email_on_new_post_email_body
+  
+            # Do not attempt to send the email if an address has not been configured.
+            if recipient.present?
+              
+              # Send the private messsage.  In this case, I am actually using it to send an email.
+              post = PostCreator.create!(Discourse.system_user, {
+                        target_emails: recipient,
+                        archetype: Archetype.private_message,
+                        subtype: TopicSubtype.system_message,
+                        title: subject,
+                        raw: body,
+                        skip_validations: true
+                      })
+              
+            end # if recipient.present?
+          end # Check if the post has any active flags
         end # script do |context|
       end # DiscourseAutomation::Scriptable.add
     end # if defined?(DiscourseAutomation)
