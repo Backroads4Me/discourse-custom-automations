@@ -33,6 +33,7 @@ after_initialize do
         script do |context|
 
 Rails.logger.info("Scipt was triggered")
+Rails.logger.debug("Debug: Scipt was triggered")
           
           # Retrieve the attributes of the object from the context provided by the trigger.
           post = context["post"]
