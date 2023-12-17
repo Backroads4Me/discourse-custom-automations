@@ -33,26 +33,29 @@ after_initialize do
         script do |context|
 
 Rails.logger.info("Scipt was triggered")
-
           
           # Retrieve the attributes of the object from the context provided by the trigger.
           post = context["post"]
 
 # Logging the entire object
-Rails.logger.info "Post Object: #{post.inspect}"
+Rails.logger.info("Log message 1")
+Rails.logger.info "Post Object: #{post.to_yaml}"
 
 # Logging specific attributes
-Rails.logger.info "Post Attributes: #{post.attributes}"
+Rails.logger.info("Log message 2")
+Rails.logger.info "Post Attributes: #{post.to_yaml}"
 
-# Logging the entire object
-Rails.logger.info "PostActions Object: #{post.post_actions.inspect}"
+Rails.logger.info("Log message 3")
+#Rails.logger.info "PostActions Object: #{post.post_actions.inspect}"
 
 # Logging specific attributes
-Rails.logger.info "Post Actions Attributes: #{post.post_actions.attributes}"
+# This failed, why?
+# Rails.logger.info "Post Actions Attributes: #{post.post_actions.attributes}"
 
 
           # Check if the post has any active flags
           if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
+            Rails.logger.info("Log message 4")
 
 
             # Access the settings defined in 'settings.yml'.
@@ -63,6 +66,7 @@ Rails.logger.info "Post Actions Attributes: #{post.post_actions.attributes}"
   
             # Do not attempt to send the email if an address has not been configured.
             if recipient.present?
+              Rails.logger.info("Log message 5")
               
               # Send the private messsage.  In this case, I am actually using it to send an email.
               post = PostCreator.create!(Discourse.system_user, {
