@@ -31,6 +31,9 @@ after_initialize do
 
         # This block defines what happens when the trigger event occurs.
         script do |context|
+
+Rails.logger.info("Scipt was triggered")
+
           
           # Retrieve the attributes of the object from the context provided by the trigger.
           post = context["post"]
