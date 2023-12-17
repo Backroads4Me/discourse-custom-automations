@@ -35,10 +35,9 @@ after_initialize do
           # Retrieve the attributes of the object from the context provided by the trigger.
           post = context["post"]
 
-          #This needs testing
-          if post&.flagged_for_moderation?  # Check if the post is flagged for moderation
           # Check if the post has any active flags
-          #if post.post_actions.where(post_action_type_id: PostActionType.flag_types.values, resolved: false).exists?
+          if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
+
 
             # Access the settings defined in 'settings.yml'.
             # Must be defined in settings.yml
