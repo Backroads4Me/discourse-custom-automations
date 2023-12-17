@@ -35,6 +35,19 @@ after_initialize do
           # Retrieve the attributes of the object from the context provided by the trigger.
           post = context["post"]
 
+# Logging the entire object
+Rails.logger.info "Post Object: #{post.inspect}"
+
+# Logging specific attributes
+Rails.logger.info "Post Attributes: #{post.attributes}"
+
+# Logging the entire object
+Rails.logger.info "PostActions Object: #{post.post_actions.inspect}"
+
+# Logging specific attributes
+Rails.logger.info "Post Actions Attributes: #{post.post_actions.attributes}"
+
+
           # Check if the post has any active flags
           if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
 
