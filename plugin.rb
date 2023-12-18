@@ -32,17 +32,14 @@ after_initialize do
         # This block defines what happens when the trigger event occurs.
         script do |context|
           
-          #Begin error handling
-          begin
-  
-            rails.logger.add_with_opts(Logger::INFO, "Script triggered", "Custom Automation")
+rails.logger.add_with_opts(
+	::Logger::Severity::INFO,
+	"Script triggered",
+	"Custom Automation")
             
             # Retrieve the attributes of the object from the context provided by the trigger.
             post = context["post"]
-  
-            # Logging
-            rails.logger.add_with_opts(Logger::INFO, "Post object", "Custom Automation", post.to_yaml)
-  
+   
             # Check if the post has any active flags
             if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
   
@@ -67,12 +64,6 @@ after_initialize do
                 
               end # if recipient.present?
             end # Check if the post has any active flags
-
-          # error handling
-          rescue => e
-            Discourse.handle_exception(e, message: "Something went wrong in the risky operation")
-          end # error handling
-          
         end # script do |context|
       end # DiscourseAutomation::Scriptable.add
     end # if defined?(DiscourseAutomation)
