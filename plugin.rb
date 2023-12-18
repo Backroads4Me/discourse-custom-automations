@@ -32,15 +32,14 @@ after_initialize do
         # This block defines what happens when the trigger event occurs.
         script do |context|
           
-Rails.logger.add_with_opts(
-	::Logger::Severity::INFO,
-	"Script triggered",
-	"Custom Automation")
+Rails.logger.warn("Script triggered 1")
+
+Rails.logger.store.report(::Logger::Severity::INFO, "Script triggered", "Custom Automation")
             
             # Retrieve the attributes of the object from the context provided by the trigger.
             post = context["post"]
 
-		Rails.logger.store.report(::Logger::Severity::INFO, "Script triggered", "Custom Automation")
+		
    
             # Check if the post has any active flags
             if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
