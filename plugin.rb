@@ -31,18 +31,16 @@ after_initialize do
 
         # This block defines what happens when the trigger event occurs.
         script do |context|
-          report_to_logster("Custom Automation", "Script triggered", 'info')
+          logger.add_with_opts(Logger::INFO, "Script triggered", "Custom Automation")
           
           # Retrieve the attributes of the object from the context provided by the trigger.
           post = context["post"]
 
 # Logging
-report_to_logster("Post object", post.to_yaml, 'info')
+logger.add_with_opts(Logger::INFO, "Post object", "Custom Automation", post.to_yaml)
 
           # Check if the post has any active flags
           if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
-            report_to_logster("Flag check", "true", 'info')
-
 
             # Access the settings defined in 'settings.yml'.
             # Must be defined in settings.yml
