@@ -31,22 +31,17 @@ after_initialize do
 
         # This block defines what happens when the trigger event occurs.
         script do |context|
-         
+          report_to_logster("Custom Automation", "Script triggered", 'info')
+          
           # Retrieve the attributes of the object from the context provided by the trigger.
           post = context["post"]
 
 # Logging
-Rails.logger.info "TED post: #{post.to_yaml}"
-Rails.logger.info "TED post_actions: #{post.post_actions.to_yaml}"
-
-# Logging specific attributes
-# This failed, why?
-# Rails.logger.info "Post Actions Attributes: #{post.post_actions.attributes}"
-
+report_to_logster("Post object", post.to_yaml, 'info')
 
           # Check if the post has any active flags
           if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
-            Rails.logger.info("TED 4")
+            report_to_logster("Flag check", "true", 'info')
 
 
             # Access the settings defined in 'settings.yml'.
@@ -57,7 +52,6 @@ Rails.logger.info "TED post_actions: #{post.post_actions.to_yaml}"
   
             # Do not attempt to send the email if an address has not been configured.
             if recipient.present?
-              Rails.logger.info("TED 5")
               
               # Send the private messsage.  In this case, I am actually using it to send an email.
               post = PostCreator.create!(Discourse.system_user, {
