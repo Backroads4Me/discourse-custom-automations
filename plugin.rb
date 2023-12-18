@@ -35,13 +35,13 @@ after_initialize do
           #Begin error handling
           begin
   
-            logger.add_with_opts(Logger::INFO, "Script triggered", "Custom Automation")
+            rails.logger.add_with_opts(Logger::INFO, "Script triggered", "Custom Automation")
             
             # Retrieve the attributes of the object from the context provided by the trigger.
             post = context["post"]
   
             # Logging
-            logger.add_with_opts(Logger::INFO, "Post object", "Custom Automation", post.to_yaml)
+            rails.logger.add_with_opts(Logger::INFO, "Post object", "Custom Automation", post.to_yaml)
   
             # Check if the post has any active flags
             if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
