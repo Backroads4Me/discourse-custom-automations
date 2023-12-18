@@ -31,38 +31,48 @@ after_initialize do
 
         # This block defines what happens when the trigger event occurs.
         script do |context|
-          logger.add_with_opts(Logger::INFO, "Script triggered", "Custom Automation")
           
-          # Retrieve the attributes of the object from the context provided by the trigger.
-          post = context["post"]
-
-# Logging
-logger.add_with_opts(Logger::INFO, "Post object", "Custom Automation", post.to_yaml)
-
-          # Check if the post has any active flags
-          if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
-
-            # Access the settings defined in 'settings.yml'.
-            # Must be defined in settings.yml
-            recipient = SiteSetting.send_email_on_new_post_email_recipient
-            subject = SiteSetting.send_email_on_new_post_email_subject
-            body = SiteSetting.send_email_on_new_post_email_body
+          #Begin error handling
+          begin
   
-            # Do not attempt to send the email if an address has not been configured.
-            if recipient.present?
-              
-              # Send the private messsage.  In this case, I am actually using it to send an email.
-              post = PostCreator.create!(Discourse.system_user, {
-                        target_emails: recipient,
-                        archetype: Archetype.private_message,
-                        subtype: TopicSubtype.system_message,
-                        title: subject,
-                        raw: body,
-                        skip_validations: true
-                      })
-              
-            end # if recipient.present?
-          end # Check if the post has any active flags
+            logger.add_with_opts(Logger::INFO, "Script triggered", "Custom Automation")
+            
+            # Retrieve the attributes of the object from the context provided by the trigger.
+            post = context["post"]
+  
+            # Logging
+            logger.add_with_opts(Logger::INFO, "Post object", "Custom Automation", post.to_yaml)
+  
+            # Check if the post has any active flags
+            if post.post_actions.where(post_action_type_id: 7, staff_took_action: false).exists?
+  
+              # Access the settings defined in 'settings.yml'.
+              # Must be defined in settings.yml
+              recipient = SiteSetting.send_email_on_new_post_email_recipient
+              subject = SiteSetting.send_email_on_new_post_email_subject
+              body = SiteSetting.send_email_on_new_post_email_body
+    
+              # Do not attempt to send the email if an address has not been configured.
+              if recipient.present?
+                
+                # Send the private messsage.  In this case, I am actually using it to send an email.
+                post = PostCreator.create!(Discourse.system_user, {
+                          target_emails: recipient,
+                          archetype: Archetype.private_message,
+                          subtype: TopicSubtype.system_message,
+                          title: subject,
+                          raw: body,
+                          skip_validations: true
+                        })
+                
+              end # if recipient.present?
+            end # Check if the post has any active flags
+
+          # error handling
+          rescue => e
+            Discourse.handle_exception(e, message: "Something went wrong in the risky operation")
+          end # error handling
+          
         end # script do |context|
       end # DiscourseAutomation::Scriptable.add
     end # if defined?(DiscourseAutomation)
