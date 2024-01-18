@@ -1,9 +1,10 @@
 # Discourse Custom Automations
 
 ## Overview
+Triggers an email notification when a new post is created.
 
-DiscourseCustomAutomations is a plugin for Discourse forums that triggers an email notification when a new post is created.
-This plugin uses the DiscourseAutomation framework and can be easily configured through the Discourse admin panel.
+The primary goal of this plugin is to server as a "Hello, World!" for me to learn and demonstrate how the Discourse
+Automation plugin works.
 
 ## Features
 - **Integration with DiscourseAutomation**: Integrates with the existing DiscourseAutomation plugin.
@@ -11,8 +12,6 @@ This plugin uses the DiscourseAutomation framework and can be easily configured 
 - **Customizable Email Content**: Allows setting the recipient, subject, and body of the email through the Site Settings.
 
 ## Installation
-
-To install Discourse Custom Automations, follow these steps:
 
 1. Add the DiscourseAutomation plugin's repository URL to your Discourse's `containers/app.yml` file under the `hooks` section.
 2. Add this plugin's repository URL to your Discourse's `containers/app.yml` file under the `hooks` section.
